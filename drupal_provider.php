@@ -6,7 +6,7 @@
 	Description: Api connect Drupal
 	Tags: api, json, http
 	Author: Luis Mayta
-	Version: 1.0.1
+	Version: 1.0.3
 	Requires PHP: 7.4
 */
 require_once plugin_dir_path( __FILE__ ) . 'vendor/autoload.php';
@@ -55,7 +55,7 @@ function drupal_provider_text_domain_render(  ) {
 }
 function drupal_provider_settings_section_callback(  ) { 
 
-	echo __( 'En esta seccion se realiza la configuracion para conectarse a drupal', 'hello' );
+	echo __( 'En esta seccion se realiza la configuracion para conectarse a drupal [drupal_conector content_type="normatividad" field="title"]', 'hello' );
 
 }
 function MostrarContenido()
@@ -75,18 +75,17 @@ add_shortcode( 'drupal_conector', 'drupal_provider_conector' );
 function drupal_provider_init(){
 	function drupal_provider_conector($atts) {
 
-		$nid = (isset($_GET['nid']))? $_GET['nombre'] : 13 ;
 		if (isset($_GET['nid'])) {
-			$nid = $_GET['nombre'];
+			$nid = $_GET['nid'];
 			$pairs = [
 				'content_type'=>'normatividad',
-				'campo'=>'title',
+				'field'=>'title',
 			];
 			$node = shortcode_atts($pairs,$atts);
 			$options = get_option( 'drupal_provider_settings' );
 			$drupalEndpoint = $options['drupal_provider_text_domain'];
 			$drupal = (new ConectorDrupal())->getServiceDrupal($atts['content_type'],$nid);
-			return $drupal[$node['campo']];
+			return $drupal[$node['field']];
 		} else {
 			return 'no envio parametro por ruta';
 		}

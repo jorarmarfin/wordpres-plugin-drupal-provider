@@ -13,7 +13,7 @@ class ConectorDrupal{
 
     public function getServiceDrupal($type,$nid)
     {
-        $content_type = $this->Call('GET','api/wordpress/'.$type.'-nid/'.$nid);
+        $content_type = $this->Call('GET','/api/wordpress/'.$type.'-nid/'.$nid);
         
         return $content_type;
     }
