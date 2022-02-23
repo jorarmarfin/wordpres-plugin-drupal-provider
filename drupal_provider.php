@@ -23,7 +23,7 @@ function drupal_provider_add_admin_menu(){
 		'drupal-provider',//slug
 		'MostrarContenido',//funcion del contenido
 		plugin_dir_url(__FILE__).'assets/icons/drupal-20x20-white.png',
-		20 //Posicion del  menu
+		100 //Posicion del  menu
 	);
 }
 function drupal_provider_settings_init(  ) { 
