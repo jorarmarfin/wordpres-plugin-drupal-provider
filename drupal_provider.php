@@ -23,7 +23,7 @@ function drupal_provider_add_admin_menu(){
 		'drupal-provider',//slug
 		'MostrarContenido',//funcion del contenido
 		plugin_dir_url(__FILE__).'assets/icons/drupal-20x20-white.png',
-		1
+		20 //Posicion del  menu
 	);
 }
 function drupal_provider_settings_init(  ) { 
@@ -76,16 +76,21 @@ function drupal_provider_init(){
 	function drupal_provider_conector($atts) {
 
 		$nid = (isset($_GET['nid']))? $_GET['nombre'] : 13 ;
-
-		$pairs = [
-			'content_type'=>'normatividad',
-			'campo'=>'title',
-		];
-		$node = shortcode_atts($pairs,$atts);
-		$options = get_option( 'drupal_provider_settings' );
-		$drupalEndpoint = $options['drupal_provider_text_domain'];
-		$drupal = (new ConectorDrupal())->getServiceDrupal($atts['content_type'],$nid);
-		return $drupal[$node['campo']];
+		if (isset($_GET['nid'])) {
+			$nid = $_GET['nombre'];
+			$pairs = [
+				'content_type'=>'normatividad',
+				'campo'=>'title',
+			];
+			$node = shortcode_atts($pairs,$atts);
+			$options = get_option( 'drupal_provider_settings' );
+			$drupalEndpoint = $options['drupal_provider_text_domain'];
+			$drupal = (new ConectorDrupal())->getServiceDrupal($atts['content_type'],$nid);
+			return $drupal[$node['campo']];
+		} else {
+			return 'no envio parametro por ruta';
+		}
+		
 	}
 }
 add_action('init', 'drupal_provider_init');
